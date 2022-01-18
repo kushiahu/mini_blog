@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}El Mini Blog{% endblock %}
+
+{% block content %}
+<div class="columns">
+  <div class="column has-text-centered">
+    <h1 class="title">Los artículos</h1><br>
+  </div>
+</div>
+
+
+<form action="{% url 'search' %}" method="get">
+  <div class="field" style="margin-bottom: 20px">
+    <label class="label">Busqueda</label>
+    <div class="control">
+      <input name="q" class="input" type="text" placeholder="Buscar">
+    </div>
+  </div> 
+</form>
+
+
+<div class="row columns is-multiline">        
+ {% for post in posts %}
+  <div class="column is-4">
+    <div class="card large">
+      <div class="card-image">
+        <figure class="image is-16by9">
+          <img src="{{ post.image.url }}" alt="Image">
+        </figure>
+      </div>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img src="https://picsum.photos/50/50" alt="Image">
+            </figure>
+          </div>
+          <div class="media-content">
+            <a href="{% url 'detail' post.id %}"><p class="title is-4 no-padding">{{ post.title }}</p></a>
+            <p><span class="title is-6">Hace: {{ post.created|timesince }}</span> </p>
+          </div>
+        </div>
+        <div class="content">
+          {{ post.body|truncatechars:200 }}
+        </div>
+      </div>
+    </div>
+  </div>         
+ {% endfor %}
+</div>
+{% endblock %}
